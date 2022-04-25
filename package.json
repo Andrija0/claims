@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/Andrija0/claims.git"
   },
+  "publishConfig": {
+    "registry": "http://npm.pkg.github.com"
+  },
   "author": "Andrija",
   "license": "ISC",
   "bugs": {
