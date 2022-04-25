@@ -1,5 +1,5 @@
 {
-  "name": "claims",
+  "name": "@andrija0/claims",
   "version": "1.0.0",
   "description": "node command for converting a claims.txt file to json",
   "main": "index.js",
