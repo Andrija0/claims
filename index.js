@@ -1,10 +1,27 @@
 const fs = require('fs');
 
+function addClaim(claimList, newClaim) {
+    if (newClaim.parent == null) {
+        delete newClaim.parent
+        claimList.push(newClaim)
+        return
+    }
+
+    for (const parent of claimList) {
+        if (newClaim.parent === parent.claim) {
+            delete newClaim.parent
+            parent.children.push(newClaim)
+            return
+        }
+        addClaim(parent.children, newClaim)
+    }
+}
+
 const allFileContents = fs.readFileSync(process.argv[2], 'utf-8');
 const claims = []
 
 allFileContents.split(/\r?\n/).forEach(row => {
-    if (row.match(/^[0-9]+./)) { // if a raw starts with a number
+    if (row.match(/^[0-9]+./)) { // if a row starts with a number
 
         const claim = parseInt(row.match(/^[0-9]+/)[0]) // extract the claim number
 
@@ -24,4 +41,12 @@ allFileContents.split(/\r?\n/).forEach(row => {
     }
 })
 
-console.log('claims', claims)
+const nestedClaims = [];
+
+for (const claim of claims) {
+    addClaim(nestedClaims, claim);
+}
+
+console.log(JSON.stringify(nestedClaims, null, 2));
+console.log('END');
+
